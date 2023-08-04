@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>learning how to move a ball</title>
+    <style>
+       * {
+            padding: 0;
+            margin: 0;
+        }
+            
+        canvas{
+            background-color:aquamarine;
+            display: block;
+            margin: 0 auto;
+        }
+    </style> 
+</head>
+<body>
+    <canvas id="Mycanvas" width="400" height="500"></canvas>
+    <script>
+        var canvas=document.getElementById("Mycanvas");
+        var ctx= canvas.getContext("2d");
+        var ballpositionx = canvas.width /2;
+        var basllpositiony = canvas.height - 30;
+        var ballradius = 10;
+        var dx = 2;
+        var dy= - 2;
+        var paddletheight= 10;
+        var paddlewidth=73;
+        var paddleX=(canvas.width - paddlewidth)/2;
+        var rightpressed = false;
+        var leftpressed = false;
+        document.addEventListener("keydown",keyDownHandler, false);
+        document.addEventListener("keydown",keyUpHandler , false);
+
+        function keyDownHandler(e) {
+            if(e.key == "Right"||e.key == "ArrowRight"){
+                rightpressed=true;
+            }else if (e.key == "left"|| e.key == "ArrowLeft"){
+                leftpressed =true;
+            }
+        }
+
+        function keyUpHandler(e) {
+            if(e.key=="right"||e.key=="ArrowLeft"){
+                rightpressed =  false;
+            }else if(e.key=="left"||e.key == "ArrowLeft"){
+                leftpressed = false;
+
+            }
+        }
+        function drwpaddel() {
+            ctx.beginPath();
+            ctx.rect(paddleX,canvas.height-paddleteight,paddlewidth,paddleteight);
+            ctx.fillStyle="white";
+            ctx.fill();
+            ctx.closePath();
+        }
+
+        function drawball(){
+            ctx.beginPath()
+            ctx.arc(ballpositionx,basllpositiony,ballradius,0,Math.PI*2,false);
+            ctx.fillStyle="green";
+            ctx.fill();
+            ctx.closePath();
+        }
+        
+        function draw() {
+            ctx.clearRect(0,0, canvas.width,canvas.height);
+            drawball(); 
+            drwpaddel();
+            
+            if( ballpositionx + dx > canvas.width-ballradius||ballpositionx + dx < ballradius){
+                dx = -dx;
+                }
+            if( basllpositiony + dy < ballradius ){
+                dy = -dy;
+            }else if(basllpositiony + dy > canvas.height - ballradius){
+                if(ballpositionx > paddleX && ballpositionx < paddleX + paddlewidth ){
+                    dy = - dy;
+                }else{
+                    alert("gameover");
+                    document.location.reload();
+                    clearInterval(inteval);
+                }
+                
+            }
+            if (rightpressed){
+                paddleX += 4;
+                if(paddleX +paddlewidth>canvas.width){
+                    paddleX = canvas.width-paddlewidth;
+                }
+            }
+            else if(leftpressed){
+                paddleX -= 4;
+                if(paddleX < 0){
+                    paddleX = 0;
+                }
+            }
+            
+            ballpositionx=ballpositionx + dx;
+            basllpositiony=basllpositiony + dy;
+
+        }
+       const inteval = setInterval(draw,10);
+        
+    </script>
+    
+</body>
+
+</html>

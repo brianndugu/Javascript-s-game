@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>learning how to move a ball</title>
+    <style>
+       * {
+            padding: 0;
+            margin: 0;
+        }
+            
+        canvas{
+            background-color: aquamarine;
+            display: block;
+            margin: 0 auto;
+        }
+    </style>       
+</head>
+<body>
+    <canvas id="Mycanvas" width="400" height="500"> </canvas>    
+    <script>
+        var canvas=document.getElementById("Mycanvas");
+        var ctx= canvas.getContext("2d");
+        var ballpositionx=canvas.width/2;
+        var ballpositiony= canvas.height /2;
+
+        function drawball(){
+            ctx.beginPath()
+            ctx.arc(ballpositionx,basllpositiony,10,0,Math.PI*2,false);
+            ctx.fillStyle="green";
+            ctx.fill();
+            ctx.closePath();
+        }
+        function draw() {
+            ctx.clearRect(0,0, canvas.width,canvas.height);
+            drawball();
+            ballpositionx=ballpositionx +2;
+            ballpositiony=ballpositiony+2;
+
+        }
+        setInterval(draw,1);
+  </script>   
+</body>
+</html>
